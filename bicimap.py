@@ -1,4 +1,5 @@
 from cgi import print_arguments
+from email import message
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy import inspect
@@ -7,6 +8,8 @@ import requests
 import math
 import geopandas
 import argparse
+#from fuzzywuzzy import fuzz
+#from fuzzywuzzy import process
 
 
 if __name__ == '__main__':
@@ -106,18 +109,20 @@ df_final
 df_final = df_final.rename({'Name_park': 'Place of interest', 'address_park': 'Place address', 'Name to bici_map': 'BiciMAD station', 'address to station': 'Station location'}, axis=1)
 df_final
 
+
 print  ("1.Quiero ver todos los parques")
 print  ("2.Quiero ver un parque en concreto")
 opcion = int(input("Seleccione una opcion de menu: "))
+
 
 if opcion==1:
     df_final.to_csv('/Users/FVILLALOBOS/Ironhack//data_project_m1_Fvp/dataframe_total.csv')
     print("Puedes ver tu resultado en esta ruta:'/Users/FVILLALOBOS/Ironhack//data_project_m1_Fvp/dataframe_total.csv")
 elif opcion==2:
     Name_park = (input ("Please Enter your park of Interest:"))
-    
     df_final = df_final.loc[df_final['Place of interest']==Name_park]
+    #df_final = process.extractOne(Name_park, df_final["Place of interest"])
     df_final.to_csv('/Users/FVILLALOBOS/Ironhack//data_project_m1_Fvp/dataframe_unic.csv')
-    print("Puedes ver tu resultado en esta ruta:'/Users/FVILLALOBOS/Ironhack//data_project_m1_Fvp/dataframe_unic.csv")    
+    print("Puedes ver tu resultado en esta ruta:'/Users/FVILLALOBOS/Ironhack//data_project_m1_Fvp/dataframe_unic.csv") 
 else:   
     print  ("FATAL ERROR...selecciona la opcion correcta")
